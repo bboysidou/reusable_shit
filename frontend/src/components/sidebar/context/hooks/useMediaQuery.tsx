@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 export const MAX_WIDTH = 1023;
+export const MAX_WIDTH_MOBILE = 767;
 
 export const useMediaQuery = (query: string): boolean => {
   const [matches, setMatches] = useState(
