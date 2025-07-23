@@ -1,3 +1,5 @@
+import 'package:app/core/helpers/constants.dart';
+import 'package:app/core/helpers/theme/Custom_colors.dart';
 import 'package:flutter/material.dart';
 
 import 'widgets/loading_button_state.dart';
@@ -9,23 +11,22 @@ enum ButtonSize { defaultSize, sm, lg, icon }
 final Map<ButtonVariant, ButtonStyle> buttonVariants = {
   ButtonVariant.primary: ElevatedButton.styleFrom(
     shadowColor: Colors.transparent,
-    backgroundColor: Colors.blue,
+    backgroundColor: ColorsManager.primary,
     foregroundColor: Colors.white,
     elevation: 0,
   ),
   ButtonVariant.destructive: ElevatedButton.styleFrom(
-    backgroundColor: Colors.red.shade600,
+    backgroundColor: ColorsManager.destructive,
     foregroundColor: Colors.white,
-    shadowColor: Colors.red.shade900,
   ),
   ButtonVariant.outline: OutlinedButton.styleFrom(
-    side: const BorderSide(color: Colors.grey),
+    side: const BorderSide(color: ColorsManager.border),
     backgroundColor: Colors.transparent,
     foregroundColor: Colors.black,
     elevation: 0,
   ),
   ButtonVariant.secondary: ElevatedButton.styleFrom(
-    backgroundColor: Colors.grey.shade200,
+    backgroundColor: ColorsManager.secondary,
     foregroundColor: Colors.black,
     elevation: 0,
   ),
@@ -37,7 +38,7 @@ final Map<ButtonVariant, ButtonStyle> buttonVariants = {
   ButtonVariant.link: TextButton.styleFrom(
     shadowColor: Colors.transparent,
     backgroundColor: Colors.transparent,
-    foregroundColor: Colors.blue,
+    foregroundColor: ColorsManager.primary,
     textStyle: const TextStyle(decoration: TextDecoration.underline),
     elevation: 0,
   ),
@@ -45,11 +46,17 @@ final Map<ButtonVariant, ButtonStyle> buttonVariants = {
 
 final Map<ButtonSize, EdgeInsetsGeometry> buttonPadding = {
   ButtonSize.defaultSize: const EdgeInsets.symmetric(
-    horizontal: 16,
-    vertical: 12,
+    horizontal: Constants.paddingMD,
+    vertical: Constants.paddingSM,
   ),
-  ButtonSize.sm: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-  ButtonSize.lg: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+  ButtonSize.sm: const EdgeInsets.symmetric(
+    horizontal: Constants.paddingSM,
+    vertical: Constants.paddingXS,
+  ),
+  ButtonSize.lg: const EdgeInsets.symmetric(
+    horizontal: Constants.paddingMD,
+    vertical: Constants.paddingSM,
+  ),
   ButtonSize.icon: const EdgeInsets.all(12),
 };
 
@@ -63,6 +70,7 @@ class ActionButtonLayout extends StatefulWidget {
   final ButtonVariant variant;
   final ButtonSize size;
   final ButtonStyle? style;
+  final double? radius;
 
   const ActionButtonLayout({
     super.key,
@@ -75,6 +83,7 @@ class ActionButtonLayout extends StatefulWidget {
     this.isLoading = false,
     this.isDisabled = false,
     this.style,
+    this.radius = Constants.radiusMD,
   });
 
   @override
@@ -108,8 +117,8 @@ class _ActionButtonLayoutState extends State<ActionButtonLayout> {
             },
             child: widget.isLoading
                 ? const SizedBox(
-                    width: 16,
-                    height: 16,
+                    width: Constants.paddingMD,
+                    height: Constants.paddingMD,
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
                 : const Text('Yes'),
@@ -122,7 +131,8 @@ class _ActionButtonLayoutState extends State<ActionButtonLayout> {
   @override
   Widget build(BuildContext context) {
     final style = buttonVariants[widget.variant];
-    final padding = buttonPadding[widget.size] ?? const EdgeInsets.all(12);
+    final padding =
+        buttonPadding[widget.size] ?? const EdgeInsets.all(Constants.paddingMD);
     final isButtonDisabled = widget.isDisabled || widget.isLoading;
 
     return ElevatedButton(
@@ -136,6 +146,11 @@ class _ActionButtonLayoutState extends State<ActionButtonLayout> {
               }
             },
       style: style?.copyWith(
+        shape: WidgetStateProperty.all(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(widget.radius ?? 0),
+          ),
+        ),
         elevation: WidgetStateProperty.all(0),
         padding: WidgetStateProperty.all(padding),
       ),

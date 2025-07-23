@@ -38,6 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return CustomScaffoldWidget(
       child: Column(
+        spacing: 10,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           ActionButtonLayout(
