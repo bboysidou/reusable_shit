@@ -1,6 +1,8 @@
 import 'package:app/widgets/action_button/Action.button.widget.dart';
 import 'package:flutter/material.dart';
 
+import 'widgets/custom_scafford/Custom_scaffold.widget.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -33,8 +35,8 @@ class _MyHomePageState extends State<MyHomePage> {
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
+    return CustomScaffoldWidget(
+      child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
