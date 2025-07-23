@@ -2,6 +2,7 @@ import 'package:app/core/helpers/constants.dart';
 import 'package:app/core/helpers/theme/Custom_colors.dart';
 import 'package:flutter/material.dart';
 
+import '../dialog/Custom_dialog.widget.dart';
 import 'widgets/loading_button_state.dart';
 
 enum ButtonVariant { primary, destructive, outline, secondary, ghost, link }
@@ -97,34 +98,17 @@ class _ActionButtonLayoutState extends State<ActionButtonLayout> {
     }
   }
 
-  void _showConfirmationDialog() {
-    showDialog(
+  void _showConfirmationDialog() async {
+    await showAppDialog(
       context: context,
-      builder: (_) => AlertDialog(
-        title: const Text('Are you sure?'),
-        content: Text(
-          widget.confirmationMessage ?? 'Please confirm your action.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              _handlePressed();
-            },
-            child: widget.isLoading
-                ? const SizedBox(
-                    width: Constants.paddingMD,
-                    height: Constants.paddingMD,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  )
-                : const Text('Yes'),
-          ),
-        ],
-      ),
+      title: 'Are you sure?',
+      content: const Text('Do you really want to this?'),
+      confirmText: 'Yes',
+      confirmColor: ColorsManager.destructive,
+      withConfirmation: true,
+      onConfirm: () {
+        _handlePressed();
+      },
     );
   }
 
