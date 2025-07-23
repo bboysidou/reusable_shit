@@ -1,6 +1,7 @@
 import 'package:app/widgets/action_button/Action.button.widget.dart';
 import 'package:flutter/material.dart';
 
+import 'core/helpers/theme/global/theme.dart';
 import 'widgets/custom_input/Custom_input.widget.dart';
 import 'widgets/custom_scafford/Custom_scaffold.widget.dart';
 
@@ -14,11 +15,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Reusable Shit',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
+      theme: AppThemes.lightTheme(),
+      darkTheme: AppThemes.darkTheme(),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
@@ -37,59 +37,58 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffoldWidget(
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            ActionButtonLayout(
-              label: "Button Witout Confirmation",
-              isLoading: isLoading,
-              variant: ButtonVariant.destructive,
-              onPressed: () async {
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          ActionButtonLayout(
+            label: "Button Witout Confirmation",
+            isLoading: isLoading,
+            variant: ButtonVariant.destructive,
+            onPressed: () async {
+              setState(() {
+                isLoading = true;
+              });
+              await Future.delayed(const Duration(seconds: 1));
+              if (mounted) {
                 setState(() {
-                  isLoading = true;
+                  isLoading = false;
                 });
-                await Future.delayed(const Duration(seconds: 1));
-                if (mounted) {
-                  setState(() {
-                    isLoading = false;
-                  });
-                }
+              }
 
-                print("Button pressed");
-              },
-            ),
-            ActionButtonLayout(
-              label: "Button with Confirmation",
-              withConfirmation: true,
-              confirmationMessage: "Are you sure?",
-              isLoading: isLoading,
-              onPressed: () async {
+              print("Button pressed");
+            },
+          ),
+          ActionButtonLayout(
+            label: "Button with Confirmation",
+            withConfirmation: true,
+            confirmationMessage: "Are you sure?",
+            isLoading: isLoading,
+            onPressed: () async {
+              setState(() {
+                isLoading = true;
+              });
+              await Future.delayed(const Duration(seconds: 1));
+              if (mounted) {
                 setState(() {
-                  isLoading = true;
+                  isLoading = false;
                 });
-                await Future.delayed(const Duration(seconds: 1));
-                if (mounted) {
-                  setState(() {
-                    isLoading = false;
-                  });
-                }
+              }
 
-                print("Button pressed");
-              },
-            ),
-            CustomFormFieldWidget(
-              controller: TextEditingController(),
-              label: "Email",
-              fieldType: FieldType.email,
-            ),
-            CustomFormFieldWidget(
-              controller: TextEditingController(),
-              label: "Password",
-              fieldType: FieldType.password,
-            ),
-          ],
-        ),
+              print("Button pressed");
+            },
+          ),
+          CustomFormFieldWidget(
+            controller: TextEditingController(),
+            label: "Email",
+            fieldType: FieldType.email,
+          ),
+          CustomFormFieldWidget(
+            controller: TextEditingController(),
+            label: "Password",
+            fieldType: FieldType.password,
+          ),
+          // LoaderWidget(),
+        ],
       ),
     );
   }
