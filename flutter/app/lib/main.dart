@@ -1,6 +1,7 @@
 import 'package:app/widgets/action_button/Action.button.widget.dart';
 import 'package:flutter/material.dart';
 
+import 'widgets/custom_input/Custom_input.widget.dart';
 import 'widgets/custom_scafford/Custom_scaffold.widget.dart';
 
 void main() {
@@ -76,6 +77,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
                 print("Button pressed");
               },
+            ),
+            CustomFormFieldWidget(
+              controller: TextEditingController(),
+              label: "Email",
+              fieldType: FieldType.email,
+            ),
+            CustomFormFieldWidget(
+              controller: TextEditingController(),
+              label: "Password",
+              fieldType: FieldType.password,
             ),
           ],
         ),
