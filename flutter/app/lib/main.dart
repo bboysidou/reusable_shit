@@ -54,8 +54,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   isLoading = false;
                 });
               }
-
-              print("Button pressed");
             },
           ),
           ActionButtonLayout(
@@ -73,8 +71,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   isLoading = false;
                 });
               }
-
-              print("Button pressed");
             },
           ),
           CustomFormFieldWidget(

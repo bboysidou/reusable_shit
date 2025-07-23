@@ -4,8 +4,8 @@ class ColorsManager {
   //INFO: Colors Light
   static const Color background = Color(0xFFFFFFFF);
   static const Color foreground = Color(0xFF252525);
-  static const Color primary = Color(0xFF353535);
-  static const Color primaryForeground = Color(0xFFFBFBFB);
+  static const Color primary = Color(0xFF0891B2);
+  static const Color primaryForeground = Color(0xFF67E8F9);
   static const Color secondary = Color(0xFFF8F8F8);
   static const Color border = Color(0xFFEBEBEB);
   static const Color input = border;
@@ -19,7 +19,7 @@ class ColorsManager {
   static const Color backgroundDark = foreground;
   static const Color foregroundDark = background;
   static const Color secondaryForeground = primary;
-  static const Color borderDark = Color(0xFF1A1A1A);
+  static const Color borderDark = muted;
   static const Color inputDark = Color(0xFF262626);
 }
 

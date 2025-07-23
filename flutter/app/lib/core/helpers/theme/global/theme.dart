@@ -3,25 +3,11 @@ import 'package:flutter/material.dart';
 import '../../constants.dart';
 import '../Custom_colors.dart';
 import 'Input_border.dart';
+import 'themes/dark_theme_schema.dart';
+import 'themes/light_theme_schema.dart';
 
 class AppThemes {
   static ThemeData lightTheme() {
-    const lightColorScheme = ColorScheme(
-      brightness: Brightness.light,
-      primary: ColorsManager.primary,
-      onPrimary: ColorsManager.primaryForeground,
-      secondary: ColorsManager.secondary,
-      onSecondary: ColorsManager.foreground,
-      error: ColorsManager.destructive,
-      onError: ColorsManager.background,
-      surface: ColorsManager.background,
-      onSurface: ColorsManager.foreground,
-      outline: ColorsManager.border,
-      surfaceContainerHighest: ColorsManager.secondary,
-      inverseSurface: ColorsManager.foreground,
-      onInverseSurface: ColorsManager.background,
-    );
-
     return ThemeData(
       brightness: Brightness.light,
       colorScheme: lightColorScheme,
@@ -55,30 +41,20 @@ class AppThemes {
   }
 
   static ThemeData darkTheme() {
-    const darkColorScheme = ColorScheme(
-      brightness: Brightness.dark,
-      primary: ColorsManager.primary,
-      onPrimary: ColorsManager.primaryForeground,
-      secondary: ColorsManager.secondary,
-      onSecondary: ColorsManager.foregroundDark,
-      error: ColorsManager.destructive,
-      onError: ColorsManager.backgroundDark,
-      surface: ColorsManager.backgroundDark,
-      onSurface: ColorsManager.foregroundDark,
-      outline: ColorsManager.borderDark,
-      inverseSurface: ColorsManager.foregroundDark,
-      onInverseSurface: ColorsManager.backgroundDark,
-    );
-
     return ThemeData(
       brightness: Brightness.dark,
       colorScheme: darkColorScheme,
       scaffoldBackgroundColor: ColorsManager.backgroundDark,
       useMaterial3: true,
       inputDecorationTheme: InputDecorationTheme(
-        filled: true,
-        fillColor: ColorsManager.inputDark,
-        contentPadding: const EdgeInsets.all(Constants.paddingSM),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(Constants.radiusSM),
+          borderSide: BorderSide(color: ColorsManager.borderDark),
+        ),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: Constants.paddingSM,
+          vertical: Constants.paddingMD,
+        ),
         enabledBorder: InputBorderConstant.borderTheme(
           color: ColorsManager.borderDark,
         ),

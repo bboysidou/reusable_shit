@@ -113,29 +113,6 @@ class _CustomFormFieldWidgetState extends State<CustomFormFieldWidget> {
                 onPressed: () => setState(() => _obscureText = !_obscureText),
               )
             : widget.suffixIcon,
-        filled: true,
-        fillColor:
-            Theme.of(context).inputDecorationTheme.fillColor ??
-            Theme.of(context).colorScheme.surfaceContainerHighest,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 14,
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Theme.of(context).dividerColor),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Theme.of(context).dividerColor),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(
-            color: Theme.of(context).colorScheme.primary,
-            width: 1.8,
-          ),
-        ),
       ),
     );
   }
