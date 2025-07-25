@@ -8,13 +8,18 @@ Future<void> showAppDialog({
   required BuildContext context,
   required String title,
   required Widget content,
-  required VoidCallback onConfirm,
+  VoidCallback? onConfirm,
   bool withConfirmation = false,
   String cancelText = 'Cancel',
   String confirmText = 'OK',
   Color? confirmColor,
   bool barrierDismissible = true,
 }) {
+  assert(
+    !withConfirmation || onConfirm != null,
+    'onConfirm must be provided when withConfirmation is true.',
+  );
+
   final theme = Theme.of(context);
   final confirmButtonColor = confirmColor ?? theme.colorScheme.primary;
 
@@ -55,7 +60,7 @@ Future<void> showAppDialog({
                       ),
                       onPressed: () {
                         Navigator.of(context).pop();
-                        onConfirm();
+                        onConfirm?.call();
                       },
                       child: Text(confirmText),
                     ),
