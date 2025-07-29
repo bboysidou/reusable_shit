@@ -2,52 +2,64 @@ export const applyFormat = (
   editorRef: React.RefObject<HTMLDivElement | null>,
   tag: "bold" | "italic" | "underline",
 ) => {
+  const tagName = "span";
+
   const selection = window.getSelection();
   if (!editorRef.current || !selection || selection.rangeCount === 0) return;
 
   const range = selection.getRangeAt(0);
-  const tagName = tag === "bold" ? "strong" : tag === "italic" ? "em" : "u";
-  const className =
-    tag === "bold" ? "font-bold" : tag === "italic" ? "italic" : "underline";
+  if (selection.isCollapsed) return;
+  let element: HTMLElement | null =
+    range.commonAncestorContainer as HTMLElement;
 
-  let parentElement = range.commonAncestorContainer;
-  if (parentElement.nodeType === Node.TEXT_NODE) {
-    parentElement = parentElement.parentElement!;
+  if (element.nodeType === Node.TEXT_NODE) {
+    element = element.parentElement;
   }
 
-  const existingElement = (parentElement as Element).closest(tagName);
-  if (existingElement && existingElement.classList.contains(className)) {
-    const textContent = existingElement.textContent || "";
-    const textNode = document.createTextNode(textContent);
-    existingElement.parentNode?.replaceChild(textNode, existingElement);
-    const newRange = document.createRange();
-    newRange.selectNodeContents(textNode);
-    selection.removeAllRanges();
-    selection.addRange(newRange);
-    return;
+  const contents = document.createElement(tagName);
+  if (!contents) return;
+  switch (tag) {
+    case "bold": {
+      const isBold = isActiveFormat({ node: contents, tag: "bold" });
+      contents.style.fontWeight = isBold ? "normal" : "bold";
+      break;
+    }
+
+    case "italic": {
+      const isItalic = isActiveFormat({ node: contents, tag: "italic" });
+      contents.style.fontStyle = isItalic ? "normal" : "italic";
+      break;
+    }
+
+    case "underline": {
+      const isUnderlined = isActiveFormat({ node: contents, tag: "underline" });
+      contents.style.textDecoration = isUnderlined ? "none" : "underline";
+      break;
+    }
   }
-
-  const element = document.createElement(tagName);
-  element.className = className;
-
-  if (range.collapsed) {
-    element.innerHTML = "\u200B";
-    range.insertNode(element);
-    const newRange = document.createRange();
-    newRange.setStart(element.firstChild!, 1);
-    newRange.collapse(true);
-    selection.removeAllRanges();
-    selection.addRange(newRange);
-    return;
-  }
-
-  const content = range.extractContents();
-  element.appendChild(content);
-  range.insertNode(element);
-
-  const newRange = document.createRange();
-  newRange.selectNodeContents(element);
-  newRange.collapse(false);
-  selection.removeAllRanges();
-  selection.addRange(newRange);
+  contents.appendChild(range.extractContents());
+  range.insertNode(contents);
 };
+
+function isActiveFormat({
+  node,
+  tag,
+}: {
+  node: HTMLElement;
+  tag: "bold" | "italic" | "underline";
+}) {
+  switch (tag) {
+    case "bold": {
+      return node.style.fontWeight === "bold";
+    }
+    case "italic": {
+      return node.style.fontStyle === "italic";
+    }
+    case "underline": {
+      return node.style.textDecoration === "underline";
+    }
+    default: {
+      return false;
+    }
+  }
+}

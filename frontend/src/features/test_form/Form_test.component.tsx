@@ -5,6 +5,7 @@ import { testSchema, type TestType } from "@/schemas/test.schema";
 import { CustomInput } from "@/components/CustomForm/Custom_input.component";
 import { Form } from "@/components/ui/form";
 import ActionButtonLayout from "@/components/ActionButton/Action_button.component";
+import { RichTextComponent } from "@/components/RichText/Rich_text.component";
 
 const FormTest = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -17,13 +18,13 @@ const FormTest = () => {
     setTimeout(() => {
       setLoading(false);
       console.log(data);
-    }, 2000);
+    }, 100);
   }, []);
 
   return (
     <Form {...form}>
       <form
-        className="w-[300px] flex flex-col gap-4"
+        className="w-[600px] flex flex-col gap-4 p-4"
         onSubmit={form.handleSubmit(onSubmit)}
       >
         <h1 className="text-2xl font-bold">
@@ -35,6 +36,15 @@ const FormTest = () => {
           label="Name"
           placeholder="John Doe"
           type="text"
+        />
+        <CustomInput
+          control={form.control}
+          name="description"
+          label="Description"
+          placeholder="John Doe"
+          renderInput={(field) => (
+            <RichTextComponent name={field.name} control={form.control} />
+          )}
         />
         <ActionButtonLayout type="submit" disabled={loading}>
           Submit

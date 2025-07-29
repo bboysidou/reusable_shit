@@ -23,6 +23,8 @@ import { applyCode } from "../functions/apply_code.function";
 interface Props {
   editorRef: React.RefObject<HTMLDivElement | null>;
   activeFormats: ActiveFormatType;
+  updateActiveFormats: () => void;
+  handleInput: () => void;
 }
 
 interface ButtonProps {
@@ -31,7 +33,12 @@ interface ButtonProps {
   isActive?: boolean;
 }
 
-const ToolbarRichTextComponent = ({ editorRef, activeFormats }: Props) => {
+const ToolbarRichTextComponent = ({
+  editorRef,
+  activeFormats,
+  updateActiveFormats,
+  handleInput,
+}: Props) => {
   const buttons: ButtonProps[] = useMemo(() => {
     return [
       {
@@ -99,9 +106,12 @@ const ToolbarRichTextComponent = ({ editorRef, activeFormats }: Props) => {
               ? "bg-primary text-primary-foreground border-primary shadow-sm"
               : "border-transparent hover:bg-toolbar-hover hover:border-editor-border",
           )}
+          type="button"
           onClick={() => {
             editorRef.current?.focus();
             command.command();
+            handleInput();
+            setTimeout(updateActiveFormats, 0);
           }}
         >
           {command.icon}

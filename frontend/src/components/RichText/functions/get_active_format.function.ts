@@ -21,10 +21,10 @@ export const getActiveFormats = (
   while (el && el !== editorRef.current) {
     const tag = el.tagName.toLowerCase();
 
-    if (tag === "strong" || el.classList.contains("font-bold"))
-      formats.bold = true;
-    if (tag === "em" || el.classList.contains("italic")) formats.italic = true;
-    if (tag === "u" || el.classList.contains("underline"))
+    if (tag === "span" && el.style.fontWeight === "bold") formats.bold = true;
+    if (tag === "span" && el.style.fontStyle === "italic")
+      formats.italic = true;
+    if (tag === "span" && el.style.textDecoration === "underline")
       formats.underline = true;
     if (tag === "h1") formats.heading1 = true;
     if (tag === "h2") formats.heading2 = true;
